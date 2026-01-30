@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import { fetchUsers, type User } from '../api/mockApi'
 
 /**
  * ClassComponent - Interview Exercise Reference Implementation
@@ -23,7 +24,7 @@ import { Component } from 'react'
  *    - Input change handler for filter
  * 
  * 4. Async Operations:
- *    - Simulated API call with loading state
+ *    - Simulated API call with loading state (uses fetchUsers from mockApi.ts)
  *    - Filter-based user search
  * 
  * 5. Cleanup:
@@ -36,12 +37,6 @@ import { Component } from 'react'
  * - Loading indicator shows during data fetch
  * - Console logs track component lifecycle and count changes
  */
-
-interface User {
-  id: number
-  name: string
-  email: string
-}
 
 interface ClassComponentState {
   count: number
@@ -67,12 +62,14 @@ class ClassComponent extends Component<{}, ClassComponentState> {
 
   componentDidMount(): void {
     // Simulating data fetch on mount
-    this.fetchUsers()
+    this.fetchUsersData()
     
     // Setting up an interval timer
     this.intervalId = window.setInterval(() => {
       this.setState(prevState => ({ timer: prevState.timer + 1 }))
     }, 1000)
+    
+    console.log('Class Component Mounted')
   }
 
   componentDidUpdate(prevProps: {}, prevState: ClassComponentState): void {
@@ -83,7 +80,7 @@ class ClassComponent extends Component<{}, ClassComponentState> {
     
     // Refetch users when filter changes
     if (prevState.filter !== this.state.filter) {
-      this.fetchUsers()
+      this.fetchUsersData()
     }
   }
 
@@ -95,23 +92,10 @@ class ClassComponent extends Component<{}, ClassComponentState> {
     console.log('Class Component Unmounted')
   }
 
-  fetchUsers = async (): Promise<void> => {
+  fetchUsersData = async (): Promise<void> => {
     this.setState({ loading: true })
-    
-    // Simulating API call
-    await new Promise(resolve => setTimeout(resolve, 500))
-    
-    const mockUsers: User[] = [
-      { id: 1, name: 'Alice Johnson', email: 'alice@example.com' },
-      { id: 2, name: 'Bob Smith', email: 'bob@example.com' },
-      { id: 3, name: 'Charlie Brown', email: 'charlie@example.com' },
-    ]
-    
-    const filteredUsers = this.state.filter
-      ? mockUsers.filter(u => u.name.toLowerCase().includes(this.state.filter.toLowerCase()))
-      : mockUsers
-    
-    this.setState({ users: filteredUsers, loading: false })
+    const users = await fetchUsers(this.state.filter)
+    this.setState({ users, loading: false })
   }
 
   handleIncrement = (): void => {

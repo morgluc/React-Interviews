@@ -2,20 +2,13 @@ import { useEffect } from 'react'
 
 function HooksComponent() {
 
-    useEffect(() => {
-        // Some code
-    }, [])
 
-    useEffect(() => {
-        // Some code
-    })
-
-    return (
-        <div className="component-box">
-            <h2>Hooks Component</h2>
-            <p>This component uses the modern hooks-based approach.</p>
-        </div>
-    )
+  return (
+    <div className="component-box">
+      <h2>Hooks Component</h2>
+      <p>Convert the class component to use hooks here!</p>
+    </div>
+  )
 }
 
 export default HooksComponent

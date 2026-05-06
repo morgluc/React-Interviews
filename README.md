@@ -3,6 +3,14 @@
 ## Overview
 This exercise tests your ability to convert a class-based React component to a modern functional component using Hooks.
 
+## Runtime Requirement
+- Node.js 24+
+
+If you use `nvm`, this repo includes `.nvmrc` and you can run:
+```bash
+nvm use
+```
+
 ## Task
 Convert the `ClassComponent` in `src/components/ClassComponent.tsx` to use React Hooks instead of class-based lifecycle methods.
 
